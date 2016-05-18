@@ -1,0 +1,79 @@
+application: dimension-dev-endpoint
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+#- url: /favicon\.ico
+#  static_files: favicon.ico
+#  upload: favicon\.ico
+
+- url: /images
+  static_dir: images
+
+  
+# Endpoints handler
+ 
+- url: /sendbdaywishes.*
+  script: AddLeadHandler.app
+    
+- url: /_ah/spi/.*
+  script: TechHealServices.application
+  
+- url: /revenuewire.*
+  script: RevWire.app
+
+- url: /addlead.*
+  script: AddLeadHandler.app
+
+- url: /createchannel.*
+  script: Channel.app
+ 
+- url: /sendreminder.*
+  script: Channel.app
+
+
+- url: /deletechannel.*
+  script: Channel.app
+  
+- url: /escalate.*
+  script: Channel.app
+  
+- url: /logoutuser.*
+  script: Channel.app
+
+#- url: /uploadfile.*
+#  script: GoogleBucket.app  
+
+- url: /uploadimage
+  script: ImageHandler.app
+
+- url: /getimage
+  script: ImageHandler.app
+
+#- url: /_ah/channel/connected/
+#  script: Channel.app
+
+- url: /_ah/channel/disconnected/
+  script: Channel.app
+
+- url: /reports/downloadleadreport
+  script: PDFHandler.app
+
+- url: /.*
+  script: mainTest.app
+  
+inbound_services:
+- channel_presence
+  
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: pycrypto
+  version: latest
+- name: endpoints
+  version: 1.0
+- name: MySQLdb
+  version: latest
+  
